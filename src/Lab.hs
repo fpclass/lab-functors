@@ -1,9 +1,9 @@
 --------------------------------------------------------------------------------
 -- Functional Programming (CS141)                                             --
--- Lab 6: Functors                                                            --
+-- Lab: Functors                                                              --
 --------------------------------------------------------------------------------
 
-module Lab6 where
+module Lab where
 
 import Prelude hiding (Functor(..))
 

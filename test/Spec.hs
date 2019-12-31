@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 -- Functional Programming (CS141)                                             --
--- Lab 6: Functors                                                            --
+-- Lab: Functors                                                              --
 --------------------------------------------------------------------------------
 
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -11,7 +11,7 @@ import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
 
-import qualified Lab6 as L
+import qualified Lab as L
 
 --------------------------------------------------------------------------------
 

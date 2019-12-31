@@ -1,1 +1,1 @@
-# Lab 6: Functors
+# Lab: Functors
