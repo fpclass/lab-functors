@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9744641cec04fa97e25ae653396a2e31ed2c0e6b20925d1ca16cd82629fda68c
+-- hash: c5be181e998ae3dd03d622a08f450beafd048950e67dd09a80e446a40423e517
 
 name:           lab-functors
 version:        0.2.0.0
@@ -42,7 +42,7 @@ test-suite lab-test
       Paths_lab_functors
   hs-source-dirs:
       test
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts
   build-depends:
       QuickCheck
     , base >=4.7 && <5
