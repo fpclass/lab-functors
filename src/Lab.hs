@@ -9,7 +9,7 @@ import Prelude hiding (Functor(..), (<$>))
 
 --------------------------------------------------------------------------------
 
--- | We are definig our own copy of the Functor type class here rather than
+-- | We are defining our own copy of the Functor type class here rather than
 -- using the one from Prelude so that we can redefine instances for it that
 -- already exist in Prelude.
 class Functor f where
