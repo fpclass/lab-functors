@@ -5,7 +5,7 @@
 
 module Lab where
 
-import Prelude hiding (Functor(..))
+import Prelude hiding (Functor(..), (<$>))
 
 --------------------------------------------------------------------------------
 
@@ -14,6 +14,12 @@ import Prelude hiding (Functor(..))
 -- already exist in Prelude.
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
+
+-- | Since we have our own definition of the `Functor` type class for the
+-- purpose of this lab, we should also define our own `<$>` operator:
+infixl 4 <$>
+(<$>) :: Functor f => (a -> b) -> f a -> f b 
+(<$>) = fmap
 
 instance Functor [] where
     fmap = map
