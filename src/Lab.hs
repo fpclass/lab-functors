@@ -6,6 +6,7 @@
 module Lab where
 
 import Prelude hiding (Functor(..), (<$>))
+import Data.Bifunctor
 
 --------------------------------------------------------------------------------
 
@@ -31,7 +32,7 @@ instance Functor Maybe where
 --------------------------------------------------------------------------------
 
 -- | This type is a wrapper around values of some type.
-data Identity a = Identity a
+newtype Identity a = Identity a
     deriving (Eq, Show)
 
 -- | 'runIdentity' @action@ extracts the value from @action@.
@@ -39,7 +40,18 @@ runIdentity :: Identity a -> a
 runIdentity (Identity a) = a
 
 instance Functor Identity where
-    fmap = undefined
+    -- fmap :: (a -> b) -> Identity a -> Identity b
+    fmap f (Identity x) = Identity (f x)
+
+-- fmap id t = id t
+
+--   fmap id (Identity x)
+-- = { applying fmap }
+--   Identity (id x)
+-- = { applying id }
+--   Identity x
+-- = { unapplying id }
+--   id (Identity x)
 
 --------------------------------------------------------------------------------
 
@@ -51,7 +63,8 @@ getConst :: Const v a -> v
 getConst (Const x) = x
 
 instance Functor (Const v) where
-    fmap = undefined
+    -- fmap :: (a -> b) -> Const v a -> Const v b
+    fmap _ (Const x) = Const x
 
 --------------------------------------------------------------------------------
 
@@ -60,7 +73,8 @@ data Point a = Point a a
     deriving (Eq, Show)
 
 instance Functor Point where
-    fmap = undefined
+    -- fmap :: (a -> b) -> Point a -> Point b
+    fmap f (Point x y) = Point (f x) (f y)
 
 --------------------------------------------------------------------------------
 
@@ -69,16 +83,21 @@ data RoseTree a = Leaf a | Node [RoseTree a]
     deriving (Eq, Show)
 
 instance Functor RoseTree where
-    fmap = undefined
+    -- fmap :: (a -> b) -> RoseTree a -> RoseTree b
+    fmap f (Leaf x) = Leaf (f x)
+    fmap f (Node ts) = Node (fmap (fmap f) ts)
 
 --------------------------------------------------------------------------------
 
 -- | A type that represents values of type @f (g a)@.
+-- [type constructor] Compose :: (* -> *) -> (* -> *) -> * -> *
+-- [data constructor] Compose :: f (g a) -> Compose f g a
 data Compose f g a = Compose (f (g a))
     deriving (Eq, Show)
 
 instance (Functor f, Functor g) => Functor (Compose f g) where
-    fmap = undefined
+    -- fmap :: (a -> b) -> Compose f g a -> Compose f g b
+    fmap f (Compose x) = Compose (fmap (fmap f) x)
 
 --------------------------------------------------------------------------------
 
@@ -97,11 +116,16 @@ fresh :: State Int Int
 fresh = St (\s -> (s,s+1))
 
 instance Functor (State s) where
-    fmap f (St m) = undefined
+    -- fmap :: (a -> b) -> State s a -> State s b
+    -- fmap f (St m) = St (\s -> let (x,s') = m s in (f x,s'))
+    fmap f (St m) = St (first f . m)
 
 --------------------------------------------------------------------------------
 
+-- (->) a b = a -> b
+
 instance Functor ((->) r) where
-    fmap = undefined
+    -- fmap :: (a -> b) -> (r -> a) -> r -> b
+    fmap = (.)
 
 --------------------------------------------------------------------------------
